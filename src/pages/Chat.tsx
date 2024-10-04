@@ -12,31 +12,44 @@ const ChatWindow: React.FC = () => {
 
   const sendMessage = async () => {
     if (!inputMessage.trim()) return;
-
+  
     // Agregar el mensaje del usuario a la lista
     const newMessage: Message = { sender: 'user', text: inputMessage };
     setMessages([...messages, newMessage]);
-
+  
     try {
       // Enviar el mensaje al backend
       const response = await axios.post('http://localhost:8080/api/chat', {
         message: inputMessage,
       });
-
-      // Agregar la respuesta del asistente a la lista de mensajes
-      const assistantMessage: Message = {
-        sender: 'assistant',
-        text: response.data.message,
-      };
-      setMessages([...messages, newMessage, assistantMessage]);
+  
+      console.log("Response from backend:", response.data);  // Verifica lo que el backend está devolviendo
+  
+      // Verifica si response.data.messages es un array
+      let assistantMessageText = '';
+      if (Array.isArray(response.data.messages)) {
+        assistantMessageText = response.data.messages[0];  // Toma solo el primer mensaje
+      } else {
+        console.error("Unexpected message format:", response.data.messages);
+      }
+  
+      // Si hay un mensaje del asistente, lo agregamos al estado
+      if (assistantMessageText) {
+        const assistantMessage: Message = {
+          sender: 'assistant',
+          text: assistantMessageText,
+        };
+        setMessages([...messages, newMessage, assistantMessage]);
+      }
     } catch (error) {
       console.error('Error sending message:', error);
     }
-
+  
     // Limpiar el campo de entrada
     setInputMessage('');
   };
-
+  
+  
   return (
     <div className="chat-window">
       <div className="messages">
@@ -78,6 +91,7 @@ const ChatWindow: React.FC = () => {
           padding: 5px 10px;
           margin: 5px 0;
           border-radius: 5px;
+          color: black;
         }
         .user {
           background-color: #d1f5d3;

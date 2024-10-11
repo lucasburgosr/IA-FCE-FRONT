@@ -1,13 +1,13 @@
-import './App.css'
-import Chat from './pages/Chat'
+// App.tsx
+import './App.css';
+import AppRouter from '../src/router/AppRouter';
 
 function App() {
-
   return (
     <>
-      <Chat />
+      <AppRouter />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

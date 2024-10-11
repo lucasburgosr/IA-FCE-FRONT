@@ -19,7 +19,7 @@ const ChatWindow: React.FC = () => {
   
     try {
       // Enviar el mensaje al backend
-      const response = await axios.post('http://localhost:8080/api/chat', {
+      const response = await axios.post('http://179.0.136.80/api/chat', {
         message: inputMessage,
       });
   
@@ -75,7 +75,7 @@ const ChatWindow: React.FC = () => {
 
       <style>{`
         .chat-window {
-          width: 400px;
+          width: 525px;
           margin: 0 auto;
           border: 1px solid #ccc;
           padding: 10px;
